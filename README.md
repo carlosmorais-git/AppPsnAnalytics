@@ -145,22 +145,6 @@ Acesse: http://localhost:8081
 2. Execute `npm start` ou `expo start`
 3. Escaneie o QR code com o Expo Go
 
-## 🎨 Design e Tema
-
-O aplicativo utiliza um tema escuro inspirado no PlayStation:
-
-- **Cores principais:**
-
-  - Fundo: `#0f172a` (azul muito escuro)
-  - Cards: `#1e293b` (azul escuro)
-  - Texto: `#ffffff` (branco)
-  - Accent: `#60a5fa` (azul PlayStation)
-
-- **Tipografia:**
-  - Títulos: Bold, tamanhos variados
-  - Texto: Regular, boa legibilidade
-  - Cores semânticas para preços e descontos
-
 ## 📱 Navegação
 
 O aplicativo utiliza React Navigation com:
@@ -171,10 +155,6 @@ O aplicativo utiliza React Navigation com:
 - **Headers customizados** com tema escuro
 
 ## 🔧 Personalização
-
-### Adicionando Novos Jogos
-
-Edite o arquivo `data/mockData.js` e adicione novos objetos ao array `MOCK_GAMES`.
 
 ### Modificando Gráficos
 
@@ -201,15 +181,6 @@ Para transformar este protótipo em um aplicativo completo:
 7. **Testes automatizados**
 8. **Deploy nas lojas** (App Store/Google Play)
 
-## 📝 Comentários no Código
-
-Todo o código está amplamente comentado para facilitar o entendimento:
-
-- **Comentários de função** explicando o propósito de cada componente
-- **Comentários inline** para lógica complexa
-- **Documentação de props** e estados
-- **Explicações de estilo** e layout
-
 ## 🐛 Problemas Conhecidos
 
 - As imagens dos jogos podem não carregar (URLs fictícias)
@@ -221,5 +192,3 @@ Todo o código está amplamente comentado para facilitar o entendimento:
 Este é um projeto de demonstração/protótipo. Use livremente para aprendizado e desenvolvimento.
 
 ---
-
-**Desenvolvido com ❤️ usando React Native e Expo**

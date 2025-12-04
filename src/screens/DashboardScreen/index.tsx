@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,69 +8,62 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import GameCard from "../components/GameCard";
-import { API_ENDPOINTS } from "../data/mockData";
+import { StackNavigationProp } from "@react-navigation/stack";
+import GameCard from "../../components/GameCard";
+import { useGames } from "../../contexts/GamesContext";
+import { Game } from "../../types";
+import { RootStackParamList } from "../../navigator/AppNavigator";
 
 // Obter dimensões da tela para responsividade
 const { width } = Dimensions.get("window");
 
+type DashboardScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Main"
+>;
+
+interface DashboardScreenProps {
+  navigation: DashboardScreenNavigationProp;
+}
+
+interface StatsCardProps {
+  title: string;
+  value: string | number;
+  subtitle?: string;
+  color?: string;
+}
+
 // Tela principal do dashboard que exibe estatísticas e lista de jogos
-const DashboardScreen = ({ navigation }) => {
-  // Estados para gerenciar dados e carregamento
-  const [games, setGames] = useState([]); // Lista de jogos
-  const [analytics, setAnalytics] = useState(null); // Dados de análise
-  const [loading, setLoading] = useState(true); // Estado de carregamento
-  const [refreshing, setRefreshing] = useState(false); // Estado de refresh
+const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
+  // Usar o contexto de jogos
+  const { games, analytics, loading, refreshing, refreshGames } = useGames();
 
-  // Função para carregar dados iniciais
-  const loadData = async () => {
-    try {
-      setLoading(true);
-
-      // Simular chamadas de API paralelas
-      const [gamesData, analyticsData] = await Promise.all([
-        API_ENDPOINTS.getGames(),
-        API_ENDPOINTS.getAnalytics(),
-      ]);
-
-      setGames(gamesData);
-      setAnalytics(analyticsData);
-    } catch (error) {
-      console.error("Erro ao carregar dados:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Função para refresh dos dados
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await loadData();
-    setRefreshing(false);
-  };
-
-  // Carregar dados quando o componente é montado
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  // Função para navegar para detalhes do jogo
-  const handleGamePress = (game) => {
-    navigation.navigate("GameDetails", { game });
-  };
-
-  // Componente para exibir estatísticas gerais
-  const StatsCard = ({ title, value, subtitle, color = "#60a5fa" }) => (
-    <View style={[styles.statsCard, { borderLeftColor: color }]}>
-      <Text style={styles.statsTitle}>{title}</Text>
-      <Text style={styles.statsValue}>{value}</Text>
-      {subtitle && <Text style={styles.statsSubtitle}>{subtitle}</Text>}
-    </View>
+  // Função memoizada para navegar para detalhes do jogo
+  const handleGamePress = useCallback(
+    (game: Game) => {
+      navigation.navigate("GameDetails", { game });
+    },
+    [navigation]
   );
 
-  // Renderizar item da lista de jogos
-  const renderGameItem = ({ item }) => (
-    <GameCard game={item} onPress={handleGamePress} />
+  // Componente memoizado para exibir estatísticas gerais
+  const StatsCard = useCallback(
+    ({ title, value, subtitle, color = "#60a5fa" }: StatsCardProps) => (
+      <View style={[styles.statsCard, { borderLeftColor: color }]}>
+        <Text style={styles.statsTitle}>{title}</Text>
+        <Text style={styles.statsValue}>{value}</Text>
+        {subtitle && <Text style={styles.statsSubtitle}>{subtitle}</Text>}
+      </View>
+    ),
+    []
+  );
+
+  // Renderizar item da lista de jogos (memoizado)
+  const renderGameItem = useCallback(
+    ({ item }: { item: Game }) => (
+      <GameCard game={item} onPress={handleGamePress} />
+    ),
+    [handleGamePress]
   );
 
   // Exibir loading se ainda estiver carregando
@@ -89,12 +82,11 @@ const DashboardScreen = ({ navigation }) => {
         renderItem={renderGameItem}
         keyExtractor={(item) => item.id.toString()}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={refreshGames} />
         }
         ListHeaderComponent={() => (
           <View style={styles.header}>
             {/* Título da tela */}
-            {/* <Text style={styles.headerTitle}>PSN Dashboard</Text> */}
             <Text style={styles.headerSubtitle}>
               Ofertas PlayStation em tempo real
             </Text>
@@ -108,22 +100,26 @@ const DashboardScreen = ({ navigation }) => {
               >
                 <StatsCard
                   title="Total de Jogos"
-                  value={analytics.generalStats.totalGames}
+                  value={analytics.generalStats?.totalGames || 0}
                   color="#10b981"
                 />
                 <StatsCard
                   title="Desconto Médio"
-                  value={`${analytics.generalStats.averageDiscount}%`}
+                  value={`${analytics.generalStats?.averageDiscount || 0}%`}
                   color="#f59e0b"
                 />
                 <StatsCard
                   title="Preço Médio"
-                  value={`R$ ${analytics.generalStats.averagePrice.toFixed(2)}`}
+                  value={`R$ ${(
+                    analytics.generalStats?.averagePrice || 0
+                  ).toFixed(2)}`}
                   color="#8b5cf6"
                 />
                 <StatsCard
                   title="Economia Total"
-                  value={`R$ ${analytics.generalStats.totalSavings.toFixed(2)}`}
+                  value={`R$ ${(
+                    analytics.generalStats?.totalSavings || 0
+                  ).toFixed(2)}`}
                   subtitle="Possível economia"
                   color="#ef4444"
                 />

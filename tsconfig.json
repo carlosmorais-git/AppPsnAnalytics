@@ -1,0 +1,42 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    /* Básico */
+    "target": "esnext", // Versão do JavaScript de saída
+    "module": "esnext", // Sistema de módulos
+    "lib": ["esnext"], // Bibliotecas incluídas
+    "jsx": "react-native", // Suporte JSX para React Native
+    "allowJs": true, // Permite arquivos .js no projeto
+
+    /* Strict Type-Checking Options */
+    "strict": true, // Habilita TODAS verificações estritas
+    // "noImplicitAny": true,                    // Erro em expressões com tipo 'any' implícito
+    // "strictNullChecks": true,                 // Verificações estritas de null/undefined
+    // "strictFunctionTypes": true,              // Verificação estrita de tipos de função
+    // "strictBindCallApply": true,              // Verificação estrita de bind/call/apply
+    // "strictPropertyInitialization": true,     // Propriedades de classe devem ser inicializadas
+    // "noImplicitThis": true,                   // Erro quando 'this' tem tipo 'any' implícito
+    // "alwaysStrict": true,                     // Analisa em modo estrito e emite "use strict"
+
+    /* Additional Checks */
+    // "noUnusedLocals": true,                   // Erro em variáveis locais não utilizadas
+    // "noUnusedParameters": true,               // Erro em parâmetros não utilizados
+    // "noImplicitReturns": true,                // Erro quando nem todos os caminhos retornam valor
+    // "noFallthroughCasesInSwitch": true,       // Erro em casos switch sem break
+    // "noUncheckedIndexedAccess": true,         // Adiciona undefined aos tipos de índice
+
+    /* Module Resolution Options */
+    "moduleResolution": "node", // Estratégia de resolução de módulos
+    "allowSyntheticDefaultImports": true, // Permite imports default sintéticos
+    "esModuleInterop": true, // Habilita interop entre CommonJS e ES Modules
+    "resolveJsonModule": true, // Permite importar arquivos .json
+    "isolatedModules": true, // Garante que cada arquivo pode ser transpilado isoladamente
+
+    /* Advanced */
+    "skipLibCheck": true, // Pula verificação de tipos em arquivos .d.ts
+    "forceConsistentCasingInFileNames": true, // Não permite referências inconsistentes ao mesmo arquivo
+    "noEmit": true // Não emite arquivos de saída (Babel faz isso)
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
+}

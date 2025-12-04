@@ -1,9 +1,14 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-
+import { Game } from "../../types";
 // Componente de card para exibir informações de um jogo
 // Recebe as propriedades do jogo e uma função de callback para quando o card é pressionado
-const GameCard = ({ game, onPress }) => {
+interface GameCardProps {
+  game: Game;
+  onPress: (game: Game) => void;
+}
+
+const GameCard = ({ game, onPress }: GameCardProps) => {
   return (
     <TouchableOpacity style={styles.card} onPress={() => onPress(game)}>
       {/* Container principal do card */}
