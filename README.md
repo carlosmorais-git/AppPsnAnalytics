@@ -2,8 +2,6 @@
 
 Aplicativo React Native para visualizar e analisar ofertas da PlayStation Store em tempo real.
 
-![alt text](image.png) ![alt text](image-2.png) ![alt text](image-1.png)
-
 ## 🚀 Tecnologias
 
 - React Native + Expo
