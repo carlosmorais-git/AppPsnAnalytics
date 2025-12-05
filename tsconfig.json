@@ -3,7 +3,7 @@
   "compilerOptions": {
     /* Básico */
     "target": "esnext", // Versão do JavaScript de saída
-    "module": "esnext", // Sistema de módulos
+    "module": "nodenext", // Sistema de módulos
     "lib": ["esnext"], // Bibliotecas incluídas
     "jsx": "react-native", // Suporte JSX para React Native
     "allowJs": true, // Permite arquivos .js no projeto
@@ -26,7 +26,7 @@
     // "noUncheckedIndexedAccess": true,         // Adiciona undefined aos tipos de índice
 
     /* Module Resolution Options */
-    "moduleResolution": "node", // Estratégia de resolução de módulos
+    "moduleResolution": "nodenext", // Estratégia de resolução de módulos
     "allowSyntheticDefaultImports": true, // Permite imports default sintéticos
     "esModuleInterop": true, // Habilita interop entre CommonJS e ES Modules
     "resolveJsonModule": true, // Permite importar arquivos .json
